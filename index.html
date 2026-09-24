@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <!-- =====================================================
+       BASIC
+  ====================================================== -->
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>Outlier — The Social Word Game</title>
+
+  <meta name="description"
+    content="Outlier is a fast social word game where everyone gets the same secret word except the impostor. Pass the phone, reveal your role, discuss, and find the outlier.">
+
+  <meta name="author" content="Prem Paramanick">
+
+  <meta name="robots" content="index, follow">
+
+  <meta name="googlebot" content="index, follow">
+
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
+  <link rel="canonical" href="https://YOUR-DOMAIN.com/">
+
+
+  <!-- =====================================================
+       MOBILE / BROWSER
+  ====================================================== -->
+
+  <meta name="theme-color" content="#0f0f10">
+
+  <meta name="format-detection" content="telephone=no">
+
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <meta name="apple-mobile-web-app-title" content="Outlier">
+
+
+  <!-- =====================================================
+       OPEN GRAPH
+       Discord / WhatsApp / Facebook / LinkedIn
+  ====================================================== -->
+
+  <meta property="og:type" content="website">
+
+  <meta property="og:title" content="Outlier — The Social Word Game">
+
+  <meta property="og:description" content="Everyone knows the word. Except one of you. Find the outlier.">
+
+  <meta property="og:url" content="https://YOUR-DOMAIN.com/">
+
+  <meta property="og:site_name" content="Outlier">
+
+  <meta property="og:locale" content="en_US">
+
+  <meta property="og:image" content="https://YOUR-DOMAIN.com/assets/og-image.png">
+
+  <meta property="og:image:type" content="image/png">
+
+  <meta property="og:image:width" content="1200">
+
+  <meta property="og:image:height" content="630">
+
+  <meta property="og:image:alt" content="Outlier — The Social Word Game">
+
+
+  <!-- =====================================================
+       TWITTER / X
+  ====================================================== -->
+
+  <meta name="twitter:card" content="summary_large_image">
+
+  <meta name="twitter:title" content="Outlier — The Social Word Game">
+
+  <meta name="twitter:description" content="Everyone knows the word. Except one of you. Find the outlier.">
+
+  <meta name="twitter:image" content="https://YOUR-DOMAIN.com/assets/og-image.png">
+
+  <meta name="twitter:image:alt" content="Outlier — The Social Word Game">
+
+
+  <!-- =====================================================
+       ICONS
+  ====================================================== -->
+
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
+
+  <!-- =====================================================
+       PWA MANIFEST
+  ====================================================== -->
+
+  <link rel="manifest" href="manifest.json">
+
+
+  <!-- =====================================================
+       STYLES
+  ====================================================== -->
+
+  <link rel="stylesheet" href="css/style.css">
+
+
+  <!-- =====================================================
+       STRUCTURED DATA
+  ====================================================== -->
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Outlier",
+      "alternateName": "Outlier Social Word Game",
+      "description": "A social word game where everyone gets the same secret word except the impostor.",
+      "applicationCategory": "GameApplication",
+      "genre": "Party Game",
+      "operatingSystem": "Web Browser",
+      "browserRequirements": "Requires JavaScript",
+      "url": "https://YOUR-DOMAIN.com/",
+      "inLanguage": "en",
+      "isAccessibleForFree": true
+    }
+
+  </script>
+
+</head>
+
+
+<body>
+
+  <main class="app">
+
+    <!-- ================= SETUP SCREEN ================= -->
+
+    <section id="setup-screen" class="screen active">
+
+      <div class="logo">
+        <span>WHO'S THE</span>
+        <strong>IMPOSTOR?</strong>
+      </div>
+
+      <p class="subtitle">
+        One of you doesn't know the word.<br>
+        Find them.
+      </p>
+
+      <div class="setup-card">
+
+        <div class="section-title">
+          <span>PLAYERS</span>
+          <span id="player-count">3 / 20</span>
+        </div>
+
+        <p class="reorder-hint">
+          Drag players to change their order
+        </p>
+
+        <div id="players-list"></div>
+
+        <button id="add-player-btn" class="secondary-btn" type="button">
+          + Add Player
+        </button>
+
+        <div class="impostor-section">
+
+          <div class="section-title">
+            <span>IMPOSTORS</span>
+          </div>
+
+          <select id="impostor-count">
+            <option value="1">
+              1 Impostor
+            </option>
+          </select>
+
+        </div>
+
+        <button id="start-game-btn" class="primary-btn" type="button">
+          Start Game
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= REVEAL SCREEN ================= -->
+
+    <section id="reveal-screen" class="screen">
+
+      <div class="top-label">
+        PLAYER
+      </div>
+
+      <h1 id="current-player-name">
+        Player 1
+      </h1>
+
+      <p class="instruction">
+        Pass the phone to this player.
+      </p>
+
+      <div id="hidden-card" class="reveal-card hidden-card">
+
+        <div class="tap-icon">
+          👆
+        </div>
+
+        <h2>
+          Tap &amp; Hold to Reveal
+        </h2>
+
+        <p>
+          Release when you're done
+        </p>
+
+      </div>
+
+
+      <div id="role-card" class="reveal-card role-card hidden">
+
+        <div class="role-content">
+
+          <p id="category-text" class="category-text">
+            Category: Animals
+          </p>
+
+          <div class="word-forming">
+
+            <h2 id="word-text"></h2>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <button id="next-player-btn" class="primary-btn next-btn hidden" type="button">
+        Next Player →
+      </button>
+
+    </section>
+
+
+    <!-- ================= DISCUSSION SCREEN ================= -->
+
+    <section id="discussion-screen" class="screen">
+
+      <div class="discussion-icon">
+        ?
+      </div>
+
+      <h1>
+        Discussion Time
+      </h1>
+
+      <p class="discussion-text">
+        Everyone has seen their role.
+        <br>
+        Discuss and figure out who the impostor is.
+      </p>
+
+      <button id="start-voting-btn" class="primary-btn" type="button">
+        Start Voting
+      </button>
+
+    </section>
+
+
+    <!-- ================= VOTING SCREEN ================= -->
+
+    <section id="voting-screen" class="screen">
+
+      <div class="top-label">
+        VOTE
+      </div>
+
+      <h1>
+        Who is the Impostor?
+      </h1>
+
+      <p class="instruction">
+        Choose one player.
+      </p>
+
+      <div id="voting-list" class="voting-list"></div>
+
+      <button id="vote-btn" class="primary-btn" type="button" disabled>
+        Confirm Vote
+      </button>
+
+    </section>
+
+
+    <!-- ================= RESULT SCREEN ================= -->
+
+    <section id="result-screen" class="screen">
+
+      <div id="result-status" class="result-status">
+        RESULT
+      </div>
+
+      <h1 id="result-title">
+        IMPOSTOR CAUGHT
+      </h1>
+
+      <p id="impostor-result" class="impostor-result"></p>
+
+
+      <div class="result-word-section">
+
+        <p class="result-label">
+          THE WORD
+        </p>
+
+        <button id="word-spoiler" class="word-spoiler" type="button">
+
+          <span class="spoiler-cover">
+            Tap to reveal
+          </span>
+
+          <span id="word-result" class="spoiler-word"></span>
+
+        </button>
+
+      </div>
+
+
+      <button id="play-again-btn" class="primary-btn" type="button">
+        Play Again
+      </button>
+
+    </section>
+
+  </main>
+
+
+  <!-- =====================================================
+       JAVASCRIPT
+  ====================================================== -->
+
+  <script src="js/words.js"></script>
+  <script src="js/game.js"></script>
+
+</body>
+
+</html>

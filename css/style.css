@@ -1,0 +1,1185 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --bg: #090909;
+    --card: #111111;
+    --border: #292929;
+    --border-light: #3a3a3a;
+    --text: #f5f5f5;
+    --muted: #888;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+
+    overflow-x: hidden;
+}
+
+.app {
+    width: 100%;
+    max-width: 520px;
+    min-height: 100vh;
+
+    margin: 0 auto;
+    padding: 24px 18px;
+}
+
+
+/* =========================================================
+   SCREENS
+========================================================= */
+
+.screen {
+    display: none;
+
+    width: 100%;
+    min-height: calc(100vh - 48px);
+
+    flex-direction: column;
+    justify-content: center;
+}
+
+.screen.active {
+    display: flex;
+}
+
+
+/* =========================================================
+   SETUP
+========================================================= */
+
+.logo {
+    text-align: center;
+    margin-bottom: 12px;
+    letter-spacing: 4px;
+}
+
+.logo span {
+    display: block;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    color: var(--muted);
+}
+
+.logo strong {
+    display: block;
+
+    margin-top: 4px;
+
+    font-size: clamp(38px, 10vw, 56px);
+
+    line-height: 0.95;
+
+    font-weight: 900;
+    letter-spacing: 2px;
+}
+
+.subtitle {
+    text-align: center;
+
+    color: var(--muted);
+
+    line-height: 1.5;
+
+    margin-bottom: 32px;
+}
+
+.setup-card {
+    background: var(--card);
+
+    border: 1px solid var(--border);
+
+    border-radius: 18px;
+
+    padding: 20px;
+}
+
+.section-title {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 12px;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+
+    color: var(--muted);
+}
+
+
+/* =========================================================
+   REORDER HINT
+========================================================= */
+
+.reorder-hint {
+    margin-top: -2px;
+    margin-bottom: 14px;
+
+    color: #666;
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   PLAYER LIST
+========================================================= */
+
+#players-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+.player-row {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+}
+
+
+/* =========================================================
+   REORDER DOT UI
+   ONLY THIS PART CHANGES THE ORDER CONTROL
+========================================================= */
+
+.drag-handle {
+    position: relative;
+
+    width: 38px;
+    min-width: 38px;
+
+    height: 44px;
+
+    padding: 0;
+
+    appearance: none;
+    -webkit-appearance: none;
+
+    border: 1px solid #252525;
+
+    border-radius: 11px;
+
+    background: #101010;
+
+    color: transparent;
+
+    cursor: grab;
+
+    touch-action: none;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.15s ease;
+}
+
+
+/*
+ * Six clean dots
+ */
+
+.drag-handle::before {
+    content: "";
+
+    width: 14px;
+    height: 20px;
+
+    background-image:
+        radial-gradient(
+            circle,
+            #777 1.5px,
+            transparent 1.7px
+        );
+
+    background-size: 7px 7px;
+
+    opacity: 0.75;
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+/*
+ * Small inner highlight
+ */
+
+.drag-handle::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 1px;
+
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.035),
+            transparent 45%
+        );
+
+    pointer-events: none;
+}
+
+
+.drag-handle:hover {
+    background: #151515;
+
+    border-color: #383838;
+}
+
+.drag-handle:hover::before {
+    opacity: 1;
+}
+
+
+.drag-handle:active {
+    cursor: grabbing;
+
+    background: #1a1a1a;
+
+    border-color: #4a4a4a;
+
+    transform: scale(0.94);
+
+    box-shadow:
+        0 0 0 3px rgba(255, 255, 255, 0.025);
+}
+
+.drag-handle:active::before {
+    opacity: 1;
+
+    transform: scale(1.08);
+}
+
+
+/* =========================================================
+   PLAYER INPUT
+========================================================= */
+
+.player-input {
+    flex: 1;
+
+    min-width: 0;
+
+    height: 44px;
+
+    padding: 0 14px;
+
+    background: #0a0a0a;
+
+    border: 1px solid #252525;
+
+    border-radius: 10px;
+
+    color: #f5f5f5;
+
+    font-size: 16px;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease;
+}
+
+.player-input::placeholder {
+    color: #555;
+}
+
+.player-input:focus {
+    background: #0e0e0e;
+
+    border-color: #444;
+}
+
+
+/* =========================================================
+   REMOVE PLAYER
+========================================================= */
+
+.remove-player {
+    position: relative;
+
+    width: 40px;
+    min-width: 40px;
+
+    height: 40px;
+
+    padding: 0;
+
+    appearance: none;
+    -webkit-appearance: none;
+
+    border: 1px solid #292929;
+
+    border-radius: 10px;
+
+    background: transparent;
+
+    color: #666;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 0;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.remove-player::before,
+.remove-player::after {
+    content: "";
+
+    position: absolute;
+
+    width: 13px;
+    height: 1.5px;
+
+    background: currentColor;
+
+    border-radius: 2px;
+}
+
+.remove-player::before {
+    transform: rotate(45deg);
+}
+
+.remove-player::after {
+    transform: rotate(-45deg);
+}
+
+.remove-player:hover {
+    background: #181818;
+
+    border-color: #444;
+
+    color: #aaa;
+}
+
+.remove-player:active {
+    transform: scale(0.92);
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.secondary-btn,
+.primary-btn {
+    width: 100%;
+
+    min-height: 52px;
+
+    border-radius: 12px;
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.15s ease,
+        background 0.2s,
+        border-color 0.2s,
+        opacity 0.2s;
+}
+
+.secondary-btn:active,
+.primary-btn:active {
+    transform: scale(0.98);
+}
+
+.secondary-btn {
+    margin-top: 12px;
+
+    background: transparent;
+
+    border: 1px dashed #333;
+
+    color: #aaa;
+}
+
+.secondary-btn:hover {
+    border-color: #555;
+
+    color: #fff;
+}
+
+.primary-btn {
+    margin-top: 20px;
+
+    background: #f2f2f2;
+
+    border: 1px solid #f2f2f2;
+
+    color: #080808;
+}
+
+.primary-btn:hover {
+    background: #fff;
+}
+
+.primary-btn:disabled {
+    opacity: 0.3;
+
+    cursor: not-allowed;
+}
+
+
+/* =========================================================
+   IMPOSTOR SELECT
+========================================================= */
+
+.impostor-section {
+    margin-top: 24px;
+}
+
+#impostor-count {
+    width: 100%;
+
+    padding: 14px 15px;
+
+    background: #0c0c0c;
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    color: var(--text);
+
+    font-size: 15px;
+
+    outline: none;
+}
+
+
+/* =========================================================
+   REVEAL SCREEN
+========================================================= */
+
+.top-label {
+    text-align: center;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+    color: var(--muted);
+}
+
+#current-player-name {
+    text-align: center;
+
+    margin-top: 7px;
+
+    font-size: clamp(30px, 8vw, 42px);
+
+    font-weight: 800;
+}
+
+.instruction {
+    text-align: center;
+
+    color: var(--muted);
+
+    font-size: 14px;
+
+    margin-top: 8px;
+
+    margin-bottom: 28px;
+}
+
+
+/* =========================================================
+   REVEAL CARD
+========================================================= */
+
+.reveal-card {
+    position: relative;
+
+    width: 100%;
+
+    min-height: 280px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #181818 0%,
+            #111 55%,
+            #0d0d0d 100%
+        );
+
+    border: 1px solid var(--border);
+
+    border-radius: 22px;
+
+    overflow: hidden;
+
+    touch-action: none;
+
+    transition:
+        border-color 0.25s,
+        box-shadow 0.25s,
+        transform 0.25s;
+}
+
+
+/* =========================================================
+   HIDDEN CARD SHINE
+========================================================= */
+
+.hidden-card {
+    position: relative;
+
+    overflow: hidden;
+}
+
+.hidden-card::after {
+    content: "";
+
+    position: absolute;
+
+    top: -80%;
+    left: -80%;
+
+    width: 45%;
+    height: 260%;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0.02) 25%,
+            rgba(255, 255, 255, 0.16) 50%,
+            rgba(255, 255, 255, 0.02) 75%,
+            transparent 100%
+        );
+
+    transform: rotate(25deg);
+
+    animation:
+        reveal-shine 2.8s ease-in-out infinite;
+}
+
+@keyframes reveal-shine {
+
+    0% {
+        left: -80%;
+    }
+
+    45% {
+        left: 140%;
+    }
+
+    100% {
+        left: 140%;
+    }
+}
+
+
+/* =========================================================
+   HOLDING STATE
+========================================================= */
+
+.hidden-card.holding {
+    border-color: #555;
+
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.04),
+        0 0 35px rgba(255, 255, 255, 0.08);
+
+    transform: scale(0.99);
+}
+
+
+/* =========================================================
+   TAP ICON
+========================================================= */
+
+.tap-icon {
+    position: relative;
+
+    z-index: 2;
+
+    font-size: 42px;
+
+    filter: grayscale(1);
+
+    animation:
+        tap-float 1.8s ease-in-out infinite;
+}
+
+@keyframes tap-float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
+}
+
+.hidden-card h2 {
+    position: relative;
+
+    z-index: 2;
+
+    margin-top: 20px;
+
+    font-size: 21px;
+}
+
+.hidden-card p {
+    position: relative;
+
+    z-index: 2;
+
+    margin-top: 8px;
+
+    color: var(--muted);
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   ROLE CARD
+========================================================= */
+
+.role-card {
+    position: relative;
+
+    overflow: hidden;
+
+    animation:
+        role-card-in 0.25s ease-out;
+}
+
+.role-card::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(255, 255, 255, 0.08),
+            transparent 55%
+        );
+
+    pointer-events: none;
+}
+
+.role-card::after {
+    content: "";
+
+    position: absolute;
+
+    top: -100%;
+    left: -80%;
+
+    width: 40%;
+    height: 300%;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.12),
+            transparent
+        );
+
+    transform: rotate(25deg);
+
+    animation:
+        role-shine 1.2s ease-out forwards;
+}
+
+@keyframes role-card-in {
+
+    0% {
+        opacity: 0;
+
+        transform: scale(0.95);
+    }
+
+    100% {
+        opacity: 1;
+
+        transform: scale(1);
+    }
+}
+
+@keyframes role-shine {
+
+    0% {
+        left: -80%;
+    }
+
+    100% {
+        left: 150%;
+    }
+}
+
+.role-content {
+    position: relative;
+
+    z-index: 4;
+
+    width: 100%;
+}
+
+.category-text {
+    margin-bottom: 20px;
+
+    color: var(--muted);
+
+    font-size: 13px;
+
+    letter-spacing: 1px;
+
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   PLAYER WORD REVEAL
+========================================================= */
+
+.word-forming {
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-height: 90px;
+
+    overflow: hidden;
+}
+
+#word-text {
+    position: relative;
+
+    z-index: 2;
+
+    margin: 0;
+
+    font-size: clamp(34px, 10vw, 54px);
+
+    line-height: 1;
+
+    font-weight: 900;
+
+    letter-spacing: -1px;
+
+    opacity: 0;
+
+    filter: blur(14px);
+
+    transform: scale(0.88);
+}
+
+#word-text.forming {
+    animation:
+        player-word-reveal 0.42s ease-out forwards;
+}
+
+@keyframes player-word-reveal {
+
+    0% {
+        opacity: 0;
+
+        filter: blur(14px);
+
+        transform: scale(0.88);
+    }
+
+    45% {
+        opacity: 0.65;
+
+        filter: blur(5px);
+
+        transform: scale(1.03);
+    }
+
+    75% {
+        opacity: 0.9;
+
+        filter: blur(1.5px);
+
+        transform: scale(1);
+    }
+
+    100% {
+        opacity: 1;
+
+        filter: blur(0);
+
+        transform: scale(1);
+    }
+}
+
+
+/* =========================================================
+   NEXT BUTTON
+========================================================= */
+
+.next-btn {
+    margin-top: 20px;
+}
+
+
+/* =========================================================
+   DISCUSSION
+========================================================= */
+
+.discussion-icon {
+    width: 80px;
+    height: 80px;
+
+    margin: 0 auto 28px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border: 1px solid var(--border-light);
+
+    border-radius: 50%;
+
+    font-size: 32px;
+
+    font-weight: 800;
+
+    color: #ddd;
+}
+
+#discussion-screen h1 {
+    text-align: center;
+
+    font-size: 34px;
+}
+
+.discussion-text {
+    text-align: center;
+
+    color: var(--muted);
+
+    line-height: 1.7;
+
+    margin-top: 12px;
+}
+
+
+/* =========================================================
+   VOTING
+========================================================= */
+
+#voting-screen h1 {
+    text-align: center;
+
+    font-size: clamp(28px, 8vw, 38px);
+}
+
+.voting-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+.vote-option {
+    width: 100%;
+
+    padding: 17px;
+
+    background: #101010;
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    color: var(--text);
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s,
+        border-color 0.2s,
+        transform 0.15s;
+}
+
+.vote-option:active {
+    transform: scale(0.98);
+}
+
+.vote-option.selected {
+    background: #1c1c1c;
+
+    border-color: #777;
+
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+
+/* =========================================================
+   RESULT
+========================================================= */
+
+#result-screen {
+    text-align: center;
+}
+
+.result-status {
+    color: var(--muted);
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+}
+
+#result-title {
+    margin-top: 8px;
+
+    font-size: clamp(32px, 9vw, 46px);
+
+    font-weight: 900;
+}
+
+.impostor-result {
+    margin-top: 12px;
+
+    color: var(--muted);
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   RESULT WORD
+========================================================= */
+
+.result-word-section {
+    margin-top: 42px;
+}
+
+.result-label {
+    margin-bottom: 10px;
+
+    color: var(--muted);
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+}
+
+.word-spoiler {
+    position: relative;
+
+    width: 100%;
+
+    min-height: 82px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    overflow: hidden;
+
+    background: #111;
+
+    border: 1px solid var(--border);
+
+    border-radius: 14px;
+
+    color: var(--text);
+
+    cursor: pointer;
+}
+
+.spoiler-cover {
+    position: absolute;
+
+    z-index: 2;
+
+    color: #aaa;
+
+    font-size: 14px;
+
+    transition:
+        opacity 0.3s,
+        transform 0.3s;
+}
+
+.spoiler-word {
+    font-size: 28px;
+
+    font-weight: 900;
+
+    opacity: 0;
+
+    filter: blur(12px);
+
+    transform: scale(0.8);
+
+    transition:
+        opacity 0.5s ease,
+        filter 0.5s ease,
+        transform 0.5s ease;
+}
+
+.word-spoiler.revealed .spoiler-cover {
+    opacity: 0;
+
+    transform: scale(0.9);
+}
+
+.word-spoiler.revealed .spoiler-word {
+    opacity: 1;
+
+    filter: blur(0);
+
+    transform: scale(1);
+}
+
+
+/* =========================================================
+   HIDDEN
+========================================================= */
+
+.hidden {
+    display: none !important;
+}
+
+
+/* =========================================================
+   SMALL SCREENS
+========================================================= */
+
+@media (max-height: 650px) {
+
+    .app {
+        padding-top: 16px;
+        padding-bottom: 16px;
+    }
+
+    .screen {
+        min-height: calc(100vh - 32px);
+    }
+
+    .reveal-card {
+        min-height: 230px;
+    }
+
+    .subtitle {
+        margin-bottom: 20px;
+    }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+
+        animation-iteration-count: 1 !important;
+
+        transition-duration: 0.01ms !important;
+    }
+}
